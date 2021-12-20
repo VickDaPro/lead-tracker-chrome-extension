@@ -20,21 +20,43 @@ let myLeads = [];
 const inputEl = document.getElementById("input-el");
 const inputBtn = document.getElementById("input-btn");
 const ulEl = document.getElementById("ul-el");
-console.log(ulEl);
+const deleteBtn = document.getElementById("delete-btn");
+const leadsFromLocalStorage = JSON.parse(localStorage.getItem("myLeads"));
 
-let leadsFromLocalStorage = JSON.parse(localStorage.getItem("myLeads"));
 if (leadsFromLocalStorage) {
   myLeads = leadsFromLocalStorage;
-  renderLeads();
+  render(myLeads);
 }
+
+function render(leads) {
+  let listItems = "";
+  for (let i = 0; i < leads.length; i++) {
+    // listItems += "<li><a target='_blank' href='" + myLeads[i] + "'>" + myLeads[i] + "</a></li>"
+
+    // Now using template strings
+    listItems += `
+	  <li>
+  <a target="_blank" href="${leads[i]}">
+  ${leads[i]}
+  </a>
+	  </li>
+	  `;
+  }
+  ulEl.innerHTML = listItems;
+}
+
+deleteBtn.addEventListener("dblclick", function () {
+  localStorage.clear();
+  myLeads = [];
+  render(myLeads);
+});
 
 inputBtn.addEventListener("click", function () {
   // document.getElementById('input-btn').value
   myLeads.push(inputEl.value);
   inputEl.value = "";
   localStorage.setItem("myLeads", JSON.stringify(myLeads));
-  renderLeads();
-  console.log(localStorage.getItem("myLeads"));
+  render(myLeads);
 });
 
 // let listItems = ""
@@ -53,23 +75,6 @@ inputBtn.addEventListener("click", function () {
 // using this to render it one time out of the for loop vs doing it three times inside the for loop
 
 // ulEl.innerHTML = listItems
-
-function renderLeads() {
-  let listItems = "";
-  for (let i = 0; i < myLeads.length; i++) {
-    // listItems += "<li><a target='_blank' href='" + myLeads[i] + "'>" + myLeads[i] + "</a></li>"
-
-    // Now using template strings
-    listItems += `
-    <li>
-<a target="_blank" href="${myLeads[i]}">
-${myLeads[i]}
-</a>
-    </li>
-    `;
-  }
-  ulEl.innerHTML = listItems;
-}
 
 // different method
 // above one is much better
