@@ -11,20 +11,30 @@
 // })
 
 let myLeads = [];
+// let myLeads = `["www.awesomelead.com"]`;
+// myLeads = JSON.parse(myLeads);
+// myLeads.push("www.in.com");
+// myLeads = JSON.stringify(myLeads);
+// console.log(typeof myLeads);
+
 const inputEl = document.getElementById("input-el");
 const inputBtn = document.getElementById("input-btn");
 const ulEl = document.getElementById("ul-el");
 console.log(ulEl);
 
-// inputBtn.addEventListener("click", function() {
-//     console.log("Button clicked!")
-// })
+let leadsFromLocalStorage = JSON.parse(localStorage.getItem("myLeads"));
+if (leadsFromLocalStorage) {
+  myLeads = leadsFromLocalStorage;
+  renderLeads();
+}
 
 inputBtn.addEventListener("click", function () {
   // document.getElementById('input-btn').value
   myLeads.push(inputEl.value);
   inputEl.value = "";
+  localStorage.setItem("myLeads", JSON.stringify(myLeads));
   renderLeads();
+  console.log(localStorage.getItem("myLeads"));
 });
 
 // let listItems = ""
